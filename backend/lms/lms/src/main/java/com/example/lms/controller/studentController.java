@@ -1,5 +1,6 @@
 package com.example.lms.controller;
 import com.example.lms.model.Student;
+import com.example.lms.service.StudentService;
 
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.*;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/students")
 @CrossOrigin("*")
 public class StudentController{
+       @Autowired
+       private StudentService service;
        @Autowired
        JdbcTemplate jdbcTemplate;
     @GetMapping
@@ -31,5 +34,9 @@ public class StudentController{
                 sql,
                 Integer.class
         );
+    }
+    @GetMapping("/message")
+    public String getMessage(){
+       return service.getMessage();
     }
 }
