@@ -2,12 +2,15 @@ package com.example.lms.controller;
 import com.example.lms.model.Student;
 
 import java.util.ArrayList;
-
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/students")
 @CrossOrigin("*")
 public class StudentController{
+       @Autowired
+       JdbcTemplate jdbcTemplate;
     @GetMapping
     public ArrayList<Student> getStudent() {
        ArrayList<Student> students=new ArrayList<>();
@@ -18,5 +21,15 @@ public class StudentController{
               new Student(2,"Vasudha","BE-CSE")
        );
        return students;
+    }
+    @GetMapping("/count")
+     public int countStudents() {
+
+        String sql = "SELECT COUNT(*) FROM students";
+
+        return jdbcTemplate.queryForObject(
+                sql,
+                Integer.class
+        );
     }
 }
