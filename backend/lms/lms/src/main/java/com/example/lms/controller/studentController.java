@@ -1,10 +1,13 @@
 package com.example.lms.controller;
+import com.example.lms.dto.StudentRequestDTO;
+import com.example.lms.dto.StudentResponseDTO;
 import com.example.lms.model.Student;
 import com.example.lms.service.StudentService;
 
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/students")
@@ -34,8 +37,25 @@ public class StudentController{
      public List<Student> getAllStudents(){
             return service.getAllStudents();
         }
-        @PostMapping
-public Student addStudent(@RequestBody Student student) {
-    return service.saveStudent(student);
+//         @PostMapping
+// public Student addStudent(@RequestBody Student student) {
+//     return service.saveStudent(student);
+// }
+@GetMapping("/{id}")
+public ResponseEntity<?> getStudent( @PathVariable("id") Integer id){
+     Student student =service.getStudentById(id);
+     StudentResponseDTO responseDTO=new StudentResponseDTO(
+        student.getId(),
+        student.getName(),
+        student.getCourse()
+    );
+    return ResponseEntity.ok(responseDTO);
+}
+@PostMapping
+public ResponseEntity<?> addStudent(@RequestBody StudentRequestDTO dto) {
+
+    Student student = service.addStudent(dto);
+
+    return ResponseEntity.ok(student);
 }
 }
