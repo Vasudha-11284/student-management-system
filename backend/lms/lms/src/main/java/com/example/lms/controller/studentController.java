@@ -58,4 +58,14 @@ public ResponseEntity<?> addStudent(@RequestBody StudentRequestDTO dto) {
 
     return ResponseEntity.ok(student);
 }
+@PutMapping("/{id}")
+public ResponseEntity<?> updateStudent(@PathVariable("id") Integer id, @RequestBody StudentRequestDTO  dto){
+    return ResponseEntity.ok(
+        service.updateStudent(id, dto)
+    );
+}
+@DeleteMapping("/{id}")
+public ResponseEntity<?> deleteStudent(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(Map.of("message",service.deleteStudent(id)));
+}
 }

@@ -48,4 +48,14 @@ public class StudentService {
 
     return repository.save(student);
 }
+  public Student updateStudent(Integer id,StudentRequestDTO dto){
+    Student student =repository.findById(id).orElseThrow(()-> new StudentNotFoundException("Student Not Found"));
+    student.setName(dto.getName());
+    student.setCourse(dto.getCourse());
+    return repository.save(student);
+  }
+  public String deleteStudent(Integer id){
+    repository.deleteById(id);
+    return "Student Deleted with id : "+id;
+  }
 }
