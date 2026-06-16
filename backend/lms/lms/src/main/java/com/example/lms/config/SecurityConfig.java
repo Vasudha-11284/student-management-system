@@ -1,11 +1,16 @@
 package com.example.lms.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+// import com.example.lms.config.JwtFilter;
 
 @Configuration
 public class SecurityConfig {
+    @Autowired
+    private JwtFilter jwtFilter;
     @Bean
     public SecurityFilterChain securityFilerChain(HttpSecurity http) throws Exception{
         http.csrf(csrf->csrf.disable())
@@ -14,7 +19,7 @@ public class SecurityConfig {
                                                    .anyRequest()
                                                    .authenticated()
 
-                        );
+                        ) .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
            return http.build();
     }
 }
